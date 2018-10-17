@@ -3,40 +3,52 @@ $(document).ready(function() {
 
 //Creating objects for the characters
 let jediArray = {
-    obi: {health:120,
+    obi: {
+    name: "obi",
+    health:520,
     attack:7,
     counter:15
 },
     luke: {
+    name: "luke",
     health:100,
     attack:8,
     counter:20
 },
     count: {
+    name: "count",
     health:150,
     attack:6,
     counter:10
 },
     darth: {
+    name: "darth",
     health:180,
     attack:10,
     counter:25
 }}
 
 var gameReset = JSON.parse(JSON.stringify(jediArray));
-delete gameReset.obi;
-console.log(jediArray)
-console.log(gameReset);
+// console.log(jediArray)
+// console.log(gameReset);
 
 var counter = 0
 var myChar = ""
 var enemy = ""
+
+var restart = $("#restartButton")
+restart.hide()
 
 //FUNCTIONS
 
 //Function to reset game
 function reset() {
     jediArray = JSON.parse(JSON.stringify(gameReset));
+    $(".jedi").appendTo(".charContainer")
+    $(".charContainer").appendTo(".charZone");
+    counter = 0;
+    restart.hide();
+    myChar = jediArray[myChar.name]
 }
 
 $(".jedi").on("click", function() {
@@ -49,7 +61,7 @@ $(".jedi").on("click", function() {
         $(".charContainer").appendTo(".enemies");
         counter++;
     }
-    else  if (counter===1) {
+    else  if (counter === 1) {
         if (myChar == jediArray[$(this).val()]) {
             alert("This is your character! Pick an enemy.")
         }
@@ -64,7 +76,9 @@ $(".jedi").on("click", function() {
 
 })
 
+
 $(".defenderArea").on("click", ".defender", function() {
+    if (myChar.health > 0) {
     enemy.health = enemy.health - myChar.attack;
     myChar.attack = myChar.attack + origAttack;
     myChar.health = myChar.health - enemy.counter;
@@ -76,10 +90,22 @@ $(".defenderArea").on("click", ".defender", function() {
         $(".defeated").hide();
         $(this).removeClass("defender");
         counter = 1;
+        if ($(".charContainer .jedi").length === 0) {
+            var youWon = $("div");
+            youWon.text("You Won!");
+            $("#restart").append(youWon)
+        }
     }
+}
     if (myChar.health <= 0) {
-        reset();
+//Set up this logic. Probably create new button for resetting, and if clicked, trigger reset() function
+        console.log("I lost")
+        restart.show()
     }
+})
+
+$("#restartButton").on("click", function() {
+    reset();
 })
 
 })
