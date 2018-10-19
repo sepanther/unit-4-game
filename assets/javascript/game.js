@@ -4,25 +4,25 @@ $(document).ready(function() {
 //Creating objects for the characters
 let jediArray = {
     obi: {
-    name: "obi",
+    name: "Obi-Wan Kenobi",
     health:520,
     attack:7,
     counter:15
 },
     luke: {
-    name: "luke",
+    name: "Luke Skywalker",
     health:100,
     attack:8,
     counter:20
 },
     count: {
-    name: "count",
+    name: "Count Dooku",
     health:150,
     attack:6,
     counter:10
 },
     darth: {
-    name: "darth",
+    name: "Darth Vader",
     health:180,
     attack:10,
     counter:25
@@ -51,15 +51,38 @@ function reset() {
     myChar = jediArray[myChar.name]
 }
 
+function updateHealth() {
+    $(".me").find(".health").text(myChar.health);
+    $(".defender").find(".health").text(enemy.health);
+}
+
+function updateWords() {
+    $("#myAttack").text("You attacked " + enemy.name + " for " + myChar.attack + " damage!");
+    $("#enemyAttack").text(enemy.name + " attacked you for " + enemy.counter + " damage!");
+    if (enemy.health <= 0) {
+        $("#enemyDefeated").text(enemy.name + " was defeated! Choose another opponent!")
+    }   
+}
+
+//ACTUAL CODE
+$(".jedi").each(function () {
+    var charName = $(this).val()
+    console.log(this);
+    console.log(charName);
+    $(this).find(".health").text((jediArray[charName]).health)
+})
+
 $(".jedi").on("click", function() {
 
 //Adding a counter to manipulate when different actions should or should not be taken on click.
     if (counter === 0) {
         $(this).appendTo(".yourChar");
+        $(this).addClass("me");
         myChar = jediArray[$(this).val()];
         origAttack = myChar.attack;
         $(".charContainer").appendTo(".enemies");
         counter++;
+        updateHealth();
     }
     else  if (counter === 1) {
         if (myChar == jediArray[$(this).val()]) {
@@ -70,6 +93,7 @@ $(".jedi").on("click", function() {
         $(this).addClass("defender");
         enemy = jediArray[$(this).val()];
         counter++;
+        $("#myAttack, #enemyAttack, #enemyDefeated").empty();
         console.log($(this).attr("class"))
     }
     }
@@ -85,6 +109,8 @@ $(".defenderArea").on("click", ".defender", function() {
     console.log("my health is now " + myChar.health)
     console.log("my attack is now " + myChar.attack)
     console.log("enemy health is " + enemy.health);
+    updateHealth();
+    updateWords();
     if (enemy.health <= 0) {
         $(this).addClass("defeated");
         $(".defeated").hide();
