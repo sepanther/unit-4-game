@@ -5,25 +5,25 @@ $(document).ready(function() {
 let jediArray = {
     obi: {
     name: "Obi-Wan Kenobi",
-    health:520,
+    health:140,
     attack:7,
-    counter:15
+    counter:13
 },
     luke: {
     name: "Luke Skywalker",
-    health:100,
+    health:120,
     attack:8,
-    counter:20
+    counter:15
 },
     count: {
     name: "Count Dooku",
-    health:150,
+    health:140,
     attack:6,
     counter:10
 },
     darth: {
     name: "Darth Vader",
-    health:180,
+    health:160,
     attack:10,
     counter:25
 }}
@@ -36,6 +36,18 @@ var enemy = ""
 
 var restart = $("#restartButton")
 restart.hide()
+
+//Autoplay audio
+// var source = "assets/audio/force.mp3"
+// var audio = document.createElement("audio");
+// //
+// audio.autoplay = true;
+// //
+// audio.load()
+// audio.addEventListener("load", function() { 
+//     audio.play(); 
+// }, true);
+// audio.src = source;
 
 //FUNCTIONS
 
