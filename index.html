@@ -11,10 +11,10 @@
 <body>
     <div class=header><h1>Star Wars RPG</h1></div>
     <div class=charZone><div class=charContainer>
-        <button class="btn jedi" id=obi value="obi">Obi-Wan<div class=health></div></button>
-        <button class="btn jedi" id=luke value="luke">Luke Skywalker<div class=health></div></button>
-        <button class="btn jedi" id=count value="count">Count Dooku<div class=health></div></button>
-        <button class="btn jedi" id=darth value="darth">Darth Vader<div class=health></div></button>
+        <button class="btn jedi" id=obi value="obi"><p>Obi-Wan</p><img src="assets/images/obi.jpg"><div class=health></div></button>
+        <button class="btn jedi" id=luke value="luke"><p>Luke Skywalker</p><img src="assets/images/luke.png"><div class=health></div></button>
+        <button class="btn jedi" id=count value="count"><p>Count Dooku</p><img src="assets/images/dooku.png"><div class=health></div></button>
+        <button class="btn jedi" id=darth value="darth"><p>Darth Vader</p><img src="assets/images/vader.jpg"><div class=health></div></button>
     </div>
     </div>
     <div class=yourChar>
@@ -25,7 +25,7 @@
     </div>
     <div class=arena>
         <h2>Fight Section</h2>
-        <button>Attack</button>
+        <button id="attack">Attack</button>
     </div>
     <div class=defenderArea>
         <h2>Defender</h2>
@@ -33,9 +33,11 @@
     <div id=restart>
         <button id=restartButton>Restart</button>
     </div>
+    <div class=words>
     <div id=myAttack></div>
     <div id=enemyAttack></div>
     <div id=enemyDefeated></div>
+    </div>
 
 
 </body>

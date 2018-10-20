@@ -1,0 +1,40 @@
+body {
+    background-image:url("../images/millenium.jpg");
+    background-size: 100%;
+}
+
+h1 {
+    font-size:36px;
+    font-family:'Courier New', Courier, monospace;
+    color:white;
+} 
+
+h2, h3 {
+    font-size:28px;
+    font-family:'Courier New', Courier, monospace;
+    color:white;
+}
+
+.header {
+    text-align:right;
+    margin-right:300px;
+}
+
+button img {
+    width:180px;
+    height:115px;
+}
+
+button {
+    margin:5px;
+}
+.charZone, .yourChar, .enemies, .arena, .defenderArea, .words {
+    padding:10px;
+}
+
+#myAttack,
+#enemyAttack,
+#enemyDefeated {
+    color:white;
+}
+

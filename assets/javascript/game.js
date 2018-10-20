@@ -29,8 +29,6 @@ let jediArray = {
 }}
 
 var gameReset = JSON.parse(JSON.stringify(jediArray));
-// console.log(jediArray)
-// console.log(gameReset);
 
 var counter = 0
 var myChar = ""
@@ -44,11 +42,15 @@ restart.hide()
 //Function to reset game
 function reset() {
     jediArray = JSON.parse(JSON.stringify(gameReset));
-    $(".jedi").appendTo(".charContainer")
+    $(".jedi").removeClass("me defender defeated");
+    $(".jedi").show();
+    $(".jedi").appendTo(".charContainer");
     $(".charContainer").appendTo(".charZone");
+    $("#myAttack, #enemyAttack, #enemyDefeated").empty();
     counter = 0;
     restart.hide();
-    myChar = jediArray[myChar.name]
+    enemy = ""
+    freshButtons();
 }
 
 function updateHealth() {
@@ -59,18 +61,18 @@ function updateHealth() {
 function updateWords() {
     $("#myAttack").text("You attacked " + enemy.name + " for " + myChar.attack + " damage!");
     $("#enemyAttack").text(enemy.name + " attacked you for " + enemy.counter + " damage!");
-    if (enemy.health <= 0) {
-        $("#enemyDefeated").text(enemy.name + " was defeated! Choose another opponent!")
-    }   
+}
+
+//Function to clean up buttons
+function freshButtons() {
+    $(".jedi").each(function () {
+        var charName = $(this).val()
+        $(this).find(".health").text((jediArray[charName]).health)
+    })
 }
 
 //ACTUAL CODE
-$(".jedi").each(function () {
-    var charName = $(this).val()
-    console.log(this);
-    console.log(charName);
-    $(this).find(".health").text((jediArray[charName]).health)
-})
+freshButtons();
 
 $(".jedi").on("click", function() {
 
@@ -82,53 +84,89 @@ $(".jedi").on("click", function() {
         origAttack = myChar.attack;
         $(".charContainer").appendTo(".enemies");
         counter++;
-        updateHealth();
     }
     else  if (counter === 1) {
         if (myChar == jediArray[$(this).val()]) {
             alert("This is your character! Pick an enemy.")
         }
         else {
-        $(this).appendTo(".defenderArea");
-        $(this).addClass("defender");
-        enemy = jediArray[$(this).val()];
-        counter++;
-        $("#myAttack, #enemyAttack, #enemyDefeated").empty();
-        console.log($(this).attr("class"))
+            $(this).appendTo(".defenderArea");
+            $(this).addClass("defender");
+            console.log(jediArray);
+            console.log(gameReset);
+            enemy = jediArray[$(this).val()];
+            counter++;
+            $("#myAttack, #enemyAttack, #enemyDefeated").empty();
+            console.log($(this).attr("class"))
     }
     }
 
 })
 
+$("#attack").on("click", function() {
 
-$(".defenderArea").on("click", ".defender", function() {
     if (myChar.health > 0) {
     enemy.health = enemy.health - myChar.attack;
-    myChar.attack = myChar.attack + origAttack;
-    myChar.health = myChar.health - enemy.counter;
-    console.log("my health is now " + myChar.health)
-    console.log("my attack is now " + myChar.attack)
-    console.log("enemy health is " + enemy.health);
+    if (enemy.health > 0) {
+        myChar.health = myChar.health - enemy.counter;
+    }
     updateHealth();
     updateWords();
+    myChar.attack = myChar.attack + origAttack;
     if (enemy.health <= 0) {
-        $(this).addClass("defeated");
+        $(".defender").addClass("defeated");
         $(".defeated").hide();
-        $(this).removeClass("defender");
+        $(".defender").removeClass("defender");
+        $("#myAttack, #enemyAttack").empty();
+        $("#enemyDefeated").text(enemy.name + " was defeated! Choose another opponent!")
         counter = 1;
         if ($(".charContainer .jedi").length === 0) {
-            var youWon = $("div");
-            youWon.text("You Won!");
-            $("#restart").append(youWon)
+            $("#enemyDefeated").text("You Won!");
+            restart.show()
         }
     }
-}
-    if (myChar.health <= 0) {
-//Set up this logic. Probably create new button for resetting, and if clicked, trigger reset() function
-        console.log("I lost")
-        restart.show()
-    }
+    if (enemy.health > 0 && myChar.health <= 0) {
+        //Show restart button that resets game once clicked
+                myChar.health=0;
+                updateHealth();
+                $("#myAttack, #enemyAttack, #enemyDefeated").empty();
+                $("#enemyDefeated").text("You lost! Better luck next time.")
+                restart.show()
+            }
+    }  
 })
+
+// $(".defenderArea").on("click", ".defender", function() {
+//     if (myChar.health > 0) {
+//     enemy.health = enemy.health - myChar.attack;
+//     myChar.attack = myChar.attack + origAttack;
+//     myChar.health = myChar.health - enemy.counter;
+//     console.log("my health is now " + myChar.health)
+//     console.log("my attack is now " + myChar.attack)
+//     console.log("enemy health is " + enemy.health);
+//     console.log(myChar);
+//     updateHealth();
+//     updateWords();
+//     if (enemy.health <= 0) {
+//         $(this).addClass("defeated");
+//         $(".defeated").hide();
+//         $(this).removeClass("defender");
+//         counter = 1;
+//         if ($(".charContainer .jedi").length === 0) {
+//             $("#myAttack, #enemyAttack").empty();
+//             $("#enemyDefeated").text("You Won!");
+//             restart.show()
+//         }
+//     }
+//     if (enemy.health > 0 && myChar.health <= 0) {
+//         //Show restart button that resets game once clicked
+//                 console.log("I lost")
+//                 $("#myAttack, #enemyAttack, #enemyDefeated").empty();
+//                 $("#enemyDefeated").text("You lost! Better luck next time.")
+//                 restart.show()
+//             }
+//     }  
+// })
 
 $("#restartButton").on("click", function() {
     reset();
