@@ -116,8 +116,14 @@ $(".jedi").on("click", function() {
 })
 
 $("#attack").on("click", function() {
-
-    if (myChar.health > 0) {
+    
+    if (counter===0) {
+        alert("You need to pick your character!")
+    }
+    else if (counter===1) {
+        alert("You need to pick an opponent!!")
+    }
+    else if (myChar.health > 0) {
     enemy.health = enemy.health - myChar.attack;
     if (enemy.health > 0) {
         myChar.health = myChar.health - enemy.counter;
